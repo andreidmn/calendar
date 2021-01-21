@@ -1,10 +1,17 @@
 <template>
-  <div>
+  <div class="new-event">
     <h2>Add New Event</h2>
     <BaseForm  btnTxt="Save" @handleSubmit="handleSubmit" >
-      <BaseInput name="email" label="email" placeholder="your email address" @handleInput="handleInput"/>
-      <BaseInput name="username" label="username" placeholder="your username" @handleInput="handleInput"/>
-      <BaseInput name="password" type="password" label="password" placeholder="your password" @handleInput="handleInput"/>
+      <BaseInput name="name"  placeholder="name" @handleInput="handleInput"/>
+      <BaseInput name="date"  placeholder="date" @handleInput="handleInput"/>
+      <div class="big-input">
+        <BaseInput class="small-input" name="name"  placeholder="0 0" @handleInput="handleInput"/>
+        <BaseInput class="small-input" name="date"  placeholder="0 0" @handleInput="handleInput"/>
+        <BaseInput class="small-input" name="link"   placeholder="0 0" @handleInput="handleInput"/>
+        <BaseInput class="small-input" name="project"   placeholder="0 0" @handleInput="handleInput"/>
+      </div>
+      <BaseInput name="link"   placeholder="link" @handleInput="handleInput"/>
+      <BaseInput name="project"   placeholder="project name" @handleInput="handleInput"/>
     </BaseForm>
   </div>
 </template>
@@ -28,8 +35,19 @@ export default {
 </script>
 
 <style lang="scss">
-* {
-  box-sizing: border-box;
+.new-event {
+  margin-top:4rem ;
+  h2 {
+    text-align: center;
+  }
+  .big-input {
+    display: flex;
+    justify-content: space-between;
+    .small-input {
+     margin: 0 5px;
+    }
+  }
 }
+
 
 </style>

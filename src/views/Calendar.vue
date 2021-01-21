@@ -1,30 +1,39 @@
 <template>
-  <div class="container">
-    <h1>Calendar</h1><br>
-    <router-link to="/event">
-      <b> + </b>
-    </router-link>
-    <div class="header">
-      <button @click="prevMonth">Prev month</button>
-      <h3>{{ months[currentMonth] }}</h3>
-      <button @click="nextMonth">Next month</button>
+  <div class="calendar-page">
+    <div class="title">
+      <h1>Calendar</h1><br>
+      <router-link to="/event">
+        <img src="../assets/add.svg" alt="add event">
+      </router-link>
     </div>
-    <ul>
-      <li v-for="(item, index) in daysInMonth" :key="item">
-        <span :class="{ 'active-day' : index === currentMonthDay }"> {{item}} </span>
-      </li>
-    </ul><ul>
-    <li v-for="(day, index) in weekDays" :key="day">
-      <span  :class="{ 'active-day' : index === currentDay }"> {{day}} </span>
-    </li>
-  </ul>
-    <ul>
-      <li class="events" v-for="event in events" :key="event">
-        <span>{{event.nume}}</span>
-        <span>{{event.ora}}</span>
-        <span>{{event.ziua}}</span>
-      </li>
-    </ul>
+    <header>
+      <button @click="prevMonth" :disabled="currentMonth === 0">
+        <img src="../assets/right-arrow.svg" alt="next-month">
+      </button>
+      <h3>{{ months[currentMonth] }}</h3>
+      <button @click="nextMonth" :disabled="currentMonth === 11">
+        <img src="../assets/right-arrow.svg" alt="next-month">
+      </button>
+    </header>
+    <div class="calendar">
+      <ul class="width">
+        <li v-for="(item, index) in daysInMonth" :key="item">
+          <span :class="{ 'active-day' : index === currentMonthDay }"> {{ item }} </span>
+        </li>
+      </ul>
+      <ul class="width">
+        <li v-for="(day, index) in weekDays" :key="day">
+          <span :class="{ 'active-day' : index === currentDay }"> {{ day }} </span>
+        </li>
+      </ul>
+      <ul>
+        <li class="events" v-for="event in events" :key="event">
+          <span>{{ event.nume }}</span>
+          <span>{{ event.ora }}</span>
+          <span>{{ event.ziua }}</span>
+        </li>
+      </ul>
+    </div>
   </div>
 </template>
 
@@ -36,9 +45,9 @@ export default {
       months: ['Ianuarie', 'Februarie', 'Martie', 'Aprilie', 'Mai', 'Iunie', 'Iulie', 'August', 'Septembrie', 'Octombrie', 'Noiembrie', 'Decembrie'],
       currentMonth: new Date().getMonth(),
       daysInMonth: new Date(new Date().getMonth(), new Date().getFullYear(), 0).getDate(),
-      currentMonthDay: new Date().getDate() -1,
+      currentMonthDay: new Date().getDate() - 1,
       weekDays: ['Luni', 'Marti', 'Miercuri', 'Joi', 'Vineri', 'Sambata', 'Duminica'],
-      currentDay: new Date().getDay() -1
+      currentDay: new Date().getDay() - 1
     }
   },
   methods: {
@@ -48,13 +57,13 @@ export default {
       }
     },
     nextMonth() {
-      if(this.currentMonth < this.months.length - 1) {
-        this.currentMonth +=1
+      if (this.currentMonth < this.months.length - 1) {
+        this.currentMonth += 1
       }
     }
   },
   computed: {
-   events  () {
+    events() {
       return this.$store.state.events
     }
   }
@@ -62,34 +71,76 @@ export default {
 </script>
 
 <style lang="scss">
-* {
-  box-sizing: border-box;
-}
-.header {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-button {
-  background-color: transparent;
-}
-ul {
-  list-style-type: none;
-  li {
-    padding: 0 5px;
-    display: inline;
+.calendar-page {
+  .calendar{
+    margin: 0 10rem;
+  }
+  .width {
+    margin: 1rem 0;
+    display: flex;
+    justify-content: space-between;
+
+  }
+
+  .title {
+    margin: 3rem 10rem;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    img {
+      width: 35px;
+    }
+  }
+
+  header {
+    width: 220px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    button:first-child {
+      img {
+        transform: rotate(180deg);
+      }
+    }
+  }
+
+
+  button {
+    border: none;
+    width: 30px;
+    background-color: transparent;
+
+    &:disabled {
+      img {
+        opacity: .3;
+      }
+    }
+
+    img {
+      width: 100%;
+    }
+  }
+
+  ul {
+    li {
+      display: inline-flex;
+    }
+  }
+
+  .active-day {
+    background-color: greenyellow;
+  }
+
+
+  .events {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    border: 1px solid transparent;
+    justify-content: space-between;
   }
 }
-.active-day {
-  background-color: green;
-}
-router-link {
-  display: inline-block;
-}
-.events {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border: 1px solid black;
-}
+
 </style>

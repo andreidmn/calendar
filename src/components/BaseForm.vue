@@ -34,11 +34,11 @@ button {
   margin-top: 16px;
   padding: 8px;
   border-radius: 4px;
-  background-color: green;
+  background-color: greenyellow;
   transition: background-color 300ms ease-in-out;
   font-size: 16px;
 &:hover {
-   background-color: darken(green, 20%);
+   background-color: darken(greenyellow, 20%);
  }
 &:disabled {
    opacity: 0.5;

@@ -35,8 +35,9 @@ export default {
     width: 100%;
     height: 34px;
     font-size: 16px;
-    border-radius: 4px;
-    border: 1px solid lightgray;
+    border-width:0px;
+    border-bottom:1px solid black;
+    outline:none;
     margin-top: 6px;
     padding-left: 12px;
   }
