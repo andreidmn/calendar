@@ -44,7 +44,7 @@ export default {
     return {
       months: ['Ianuarie', 'Februarie', 'Martie', 'Aprilie', 'Mai', 'Iunie', 'Iulie', 'August', 'Septembrie', 'Octombrie', 'Noiembrie', 'Decembrie'],
       currentMonth: new Date().getMonth(),
-      daysInMonth: new Date(new Date().getMonth(), new Date().getFullYear(), 0).getDate(),
+      daysInMonth: new Date(new Date().getFullYear(), new Date().getMonth(), 0).getDate(),
       currentMonthDay: new Date().getDate() - 1,
       weekDays: ['Luni', 'Marti', 'Miercuri', 'Joi', 'Vineri', 'Sambata', 'Duminica'],
       currentDay: new Date().getDay() - 1
@@ -54,12 +54,17 @@ export default {
     prevMonth() {
       if (this.currentMonth > 0) {
         this.currentMonth -= 1
+        this.updateDaysInMonth()
       }
     },
     nextMonth() {
       if (this.currentMonth < this.months.length - 1) {
         this.currentMonth += 1
+        this.updateDaysInMonth()
       }
+    },
+    updateDaysInMonth() {
+      this.daysInMonth = new Date(new Date().getFullYear(), this.currentMonth +1, 0).getDate();
     }
   },
   computed: {
