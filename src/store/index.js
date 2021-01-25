@@ -8,23 +8,34 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
     state:{
-        events: [
-            {nume: 'meeting', ora: '12 20', ziua:"duminica"},
-            {nume: 'intalnire', ora: '14 00', ziua:"duminica"},
-            {nume: 'meeting', ora: '12 20',  ziua:"duminica"}
-        ]
+        events: []
     }
     ,
-    mutations: {},
+    mutations: {
+        UPDATE_EVENTS (state, payload) {
+            Vue.set(state, 'events', payload);
+        }
+    },
     actions: {
-        save: async function (context, payload) {
+        async get_events (context) {
             try {
-                await axios({
+                // get events from database/backend
+                const url = '/api/events'
+                const response = await axios.get(url);
+                context.commit('UPDATE_EVENTS', response.data)
+            }
+            catch (e) {
+                console.log(e)
+            }
+        },
+        async save (context, payload) {
+            try {
+                const response = await axios({
                     method: 'POST',
-                    url: '/event'
+                    url: 'api/events',
+                    data: payload
                 })
-                console.log(context)
-                console.log(payload)
+                context.commit('UPDATE_EVENTS', response.data)
             } catch (err) {
                 console.log(err)
             }

@@ -71,6 +71,9 @@ export default {
     events() {
       return this.$store.state.events
     }
+  },
+  created () {
+    this.$store.dispatch('get_events');
   }
 }
 </script>
