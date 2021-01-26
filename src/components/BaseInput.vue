@@ -1,7 +1,7 @@
 <template>
   <div class="base-input">
     <label :for="id || label">{{ label }}</label>
-    <input :name="name" :type="type || 'text'" :id="id || label" :placeholder="placeholder" @input="handleInput">
+    <input :value="value"  :name="name" :type="type || 'text'" :id="id || label" :placeholder="placeholder" @input="handleInput">
   </div>
 </template>
 
@@ -12,7 +12,8 @@ export default {
     'id',
     'placeholder',
     'type',
-    'name'
+    'name',
+     'value'
   ],
   methods: {
     handleInput(event) {

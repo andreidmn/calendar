@@ -3,30 +3,33 @@
     <h2>Add New Event</h2>
     <router-link to="/calendar">CALENDAR</router-link>
     <BaseForm  btnTxt="Save" @handleSubmit="handleSubmit" >
-      <BaseInput name="nume"  placeholder="nume" @handleInput="handleInput"/>
-      <BaseInput name="ziua"  placeholder="ziua" @handleInput="handleInput"/>
-      <BaseInput name="ora"   placeholder="ora" @handleInput="handleInput"/>
+      <BaseInput name="name"  placeholder="name" />
+      <BaseInput name="details"  placeholder="details" />
+      <BaseInput name="date"   placeholder="date" />
+      <BaseInput name="time"   placeholder="time"/>
+      <BaseInput name="url"   placeholder="url" />
     </BaseForm>
   </div>
 </template>
 <script>
+import router from "@/router";
 export default {
   name: "NewEvent",
   data() {
     return {
       form: {
-        nume: undefined,
-        ora: undefined,
-        ziua: undefined,
+        title: undefined,
+        details: undefined,
+        date: undefined,
+        time: undefined,
+        url: undefined
       }
     }
   },
   methods: {
     handleSubmit () {
       this.$store.dispatch("save", {formData: this.form})
-    },
-    handleInput ({ name, value }) {
-      this.form[name] = value;
+      router.push('/')
     }
   }
 }

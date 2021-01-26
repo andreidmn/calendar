@@ -5,6 +5,9 @@
       <router-link to="/event">
         <img src="../assets/add.svg" alt="add event">
       </router-link>
+      <router-link to="/register">Register</router-link>
+      <router-link to="/login">Login</router-link>
+      <router-link to="/profile">Profile</router-link>
     </div>
     <header>
       <button @click="prevMonth" :disabled="currentMonth === 0">
@@ -27,10 +30,12 @@
         </li>
       </ul>
       <ul>
-        <li class="events" v-for="event in events" :key="event">
+        <li class="events" v-for="(event, index) in events" :key="event">
           <span>{{ event.nume }}</span>
           <span>{{ event.ora }}</span>
           <span>{{ event.ziua }}</span>
+          <button @click="deleteEvent(index)">Delete</button>
+          <router-link :to="`/event/${event.id}`">EDIT</router-link>
         </li>
       </ul>
     </div>
@@ -51,6 +56,9 @@ export default {
     }
   },
   methods: {
+    deleteEvent (index) {
+      this.$store.commit('DELETE_EVENT', index)
+    },
     prevMonth() {
       if (this.currentMonth > 0) {
         this.currentMonth -= 1
@@ -64,15 +72,18 @@ export default {
       }
     },
     updateDaysInMonth() {
-      this.daysInMonth = new Date(new Date().getFullYear(), this.currentMonth +1, 0).getDate();
+      this.daysInMonth = new Date(new Date().getFullYear(), this.currentMonth + 1, 0).getDate();
     }
   },
   computed: {
     events() {
       return this.$store.state.events
+    },
+    user() {
+      return this.$store.state.user
     }
   },
-  created () {
+  created() {
     this.$store.dispatch('get_events');
   }
 }
@@ -80,9 +91,10 @@ export default {
 
 <style lang="scss">
 .calendar-page {
-  .calendar{
+  .calendar {
     margin: 0 10rem;
   }
+
   .width {
     margin: 1rem 0;
     display: flex;
@@ -95,6 +107,7 @@ export default {
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
+
     img {
       width: 35px;
     }
