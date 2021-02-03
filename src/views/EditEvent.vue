@@ -3,9 +3,11 @@
     <h2>Edit Event</h2>
     <router-link to="/calendar">CALENDAR</router-link>
     <BaseForm btnTxt="Save" @handleSubmit="handleSubmit">
-      <BaseInput name="nume" placeholder="nume" :value="event.nume" @handleInput="handleInput" />
-      <BaseInput name="ora" placeholder="ora" :value="event.ora" @handleInput="handleInput"/>
-      <BaseInput name="ziua" placeholder="ziua" :value="event.ziua" @handleInput="handleInput"/>
+      <BaseInput name="name" placeholder="Title" :value="event.name" @handleInput="handleInput" />
+      <BaseInput name="details" placeholder="Details"  :value="event.details" @handleInput="handleInput"/>
+      <BaseInput name="date" placeholder="Date" :value="event.date" @handleInput="handleInput"/>
+      <BaseInput name="time" placeholder="Time" :value="event.time" @handleInput="handleInput"/>
+      <BaseInput name="url" placeholder="URL" :value="event.url" @handleInput="handleInput"/>
     </BaseForm>
   </div>
 </template>
@@ -14,10 +16,13 @@ export default {
   name: "EditEvent",
   data() {
     return {
-      form: {
-        nume: undefined,
-        ora: undefined,
-        ziua: undefined
+        form: {
+          name: undefined,
+          details: undefined,
+          date: undefined,
+          time: undefined,
+          url: undefined,
+          id: undefined
       }
     }
   },

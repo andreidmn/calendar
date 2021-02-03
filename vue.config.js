@@ -1,10 +1,11 @@
 module.exports = {
     devServer: {
         proxy: {
-            "/api/": {
-                target: "http://localhost:3000/",
-                pathRewrite: { "^/api": "" },
-            },
-        },
+            '/api/': {
+                target: 'https://calapp.superdev.ro/api/',
+                pathRewrite: { '^/api': ''}
+            }
+        }
     }
 };
+

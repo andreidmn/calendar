@@ -2,10 +2,14 @@
   <div class="register-page">
     <h2>Register</h2>
     <router-link to="/calendar">CALENDAR</router-link>
-    <BaseForm btnTxt="Register" @handleSubmit="handleSubmit">
-      <BaseInput name="user" placeholder="user"  @handleInput="handleInput"/>
-      <BaseInput name="password" placeholder="enter your password"  @handleInput="handleInput" />
-      <BaseInput name="repeatPassword" placeholder="enter your password"  @handleInput="handleInput"/>
+    <div v-if="registerSuccessfully">
+      <p>V-ati inregistrat cu succes!</p>
+      <router-link to="/login">Login</router-link>
+    </div>
+    <BaseForm v-else btnTxt="Register" @handleSubmit="handleSubmit">
+      <BaseInput name="email" placeholder="user" @handleInput="handleInput"/>
+      <BaseInput name="password" type="password" placeholder="enter your password" @handleInput="handleInput"/>
+      <BaseInput name="repeatPassword" placeholder="enter your password" @handleInput="handleInput"/>
     </BaseForm>
   </div>
 </template>
@@ -16,28 +20,29 @@ export default {
   data() {
     return {
       form: {
-        user: undefined,
-        password: undefined,
-        repeatPassword: undefined
+        email: undefined,
+        password: undefined
       }
     }
   },
-  computed: {
-    user () { return this.$store.state.user}
-  },
   methods: {
     handleSubmit () {
-      this.$store.dispatch('register',this.form )
+      this.$store.dispatch('register', this.form);
     },
     handleInput ({ name, value }) {
       this.form[name] = value;
+    }
+  },
+  computed: {
+    registerSuccessfully () {
+      return this.$store.state.registerSuccessfully
     }
   }
   }
 </script>
 
 <style lang="scss">
-.register-page {
-  text-align: center;
-}
+  .register-page {
+    text-align: center;
+  }
 </style>

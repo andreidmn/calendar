@@ -5,8 +5,11 @@
       <router-link to="/event">
         <img src="../assets/add.svg" alt="add event">
       </router-link>
-      <router-link to="/register">Register</router-link>
-      <router-link to="/login">Login</router-link>
+      <div v-if="!user.name">
+        <router-link to="/register">Register</router-link>
+        <router-link to="/login">Login</router-link>
+      </div>
+      <button  @click="logout">Logout</button>
       <router-link to="/profile">Profile</router-link>
     </div>
     <header>
@@ -21,7 +24,7 @@
     <div class="calendar">
       <ul class="width">
         <li v-for="(item, index) in daysInMonth" :key="item">
-          <span :class="{ 'active-day' : index === currentMonthDay }"> {{ item }} </span>
+          <button :class="{ 'active-day' : index === currentMonthDay }" @click="filterEvents"> {{ item }} </button>
         </li>
       </ul>
       <ul class="width">
@@ -31,9 +34,9 @@
       </ul>
       <ul>
         <li class="events" v-for="(event, index) in events" :key="event">
-          <span>{{ event.nume }}</span>
-          <span>{{ event.ora }}</span>
-          <span>{{ event.ziua }}</span>
+          <span>{{ event.value.name }}</span>
+          <span>{{ event.value.details }}</span>
+          <span>{{ event.value.date }}</span>
           <button @click="deleteEvent(index)">Delete</button>
           <router-link :to="`/event/${event.id}`">EDIT</router-link>
         </li>
@@ -56,8 +59,14 @@ export default {
     }
   },
   methods: {
-    deleteEvent (index) {
-      this.$store.commit('DELETE_EVENT', index)
+    logout() {
+      this.$store.dispatch('logout')
+    },
+    filterEvents(index) {
+      this.$store.commit('FILTER_EVENTS', index)
+    },
+    deleteEvent(index) {
+      this.$store.dispatch('DELETE_EVENT')
     },
     prevMonth() {
       if (this.currentMonth > 0) {

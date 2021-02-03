@@ -10,6 +10,7 @@ const events = [
     {nume: 'meeting', ora: '12 20',  ziua:"duminica", id: 3 }
 ]
 
+
 app.get('/events', (req, res) => {
     res.send(events);
 })
@@ -46,7 +47,17 @@ app.put('/event/:id', (req, res) => {
 app.post('/register', (req, res) => {
    res.send({ email: req.body.user })
 })
+app.post('/login', (req, res) => {
+   res.send({ email: req.body.user })
+})
 
+
+app.post('/profile', (req, res) => {
+  res.send({firstName: req.body.firstName})
+})
+app.put('/profile', (req, res) => {
+  res.send( req.body )
+})
 
 
 const server = app.listen(PORT, () => { console.log(`server started at port ${PORT}`) });

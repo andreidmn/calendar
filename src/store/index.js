@@ -8,9 +8,12 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
     state: {
-        events: [],
         event: {},
-        user: {}
+        events: [],
+        user: {},
+        profile: {},
+        registerSuccessfully: false,
+
      },
     mutations: {
         UPDATE_EVENTS (state, payload) {
@@ -22,19 +25,60 @@ export default new Vuex.Store({
         SET_STATE (state, payload) {
             Vue.set(state, payload.key, payload.value);
         },
-        DELETE_EVENT (state, index) {
-            state.events.splice(index, 1)
+        FILTER_EVENTS(state, event) {
+            const filteredEvents = state.events.filter(obj => obj.data === event.date)
+            Vue.set(state, 'events', filteredEvents)
         }
     },
     actions: {
-        async register (context, payload) {
+        deleteEvent () {
+
+        },
+        async logout(context) {
             try {
-                const response = await axios({
+                const {data} = await axios({
+                    method: 'DELETE',
+                    url: '/api/auth/logout',
+                })
+
+                context.commit('CREATE_USER', data)
+                await router.push('/login')
+            } catch (err) {
+            }
+        }
+        ,
+        async check_login({state, commit }, next) {
+            try {
+                const { data } = await axios('/api/auth/check-login');
+                data.name ? next() : next('/login');
+                data.name && commit('CREATE_USER', data);
+            }
+            catch (e) {
+                console.log(e);
+            }
+        },
+        async register ({ commit }, payload) {
+            try {
+                const { data } = await axios({
                     method: 'POST',
-                    url: '/api/register',
+                    url: '/api/auth/signup',
                     data: payload
                 })
-                context.commit('CREATE_USER', response.data)
+                commit('SET_STATE', { key: 'registerSuccessfully', value: true });
+            } catch (err) {
+                console.log(err)
+            }
+        },
+        async login(context, payload) {
+            try {
+                const {data} = await axios({
+                    method: 'POST',
+                    url: '/api/auth/login',
+                    data: payload
+                })
+                console.log(context)
+                console.log(payload)
+                context.commit('CREATE_USER', data)
                 await router.push('/calendar')
             } catch (err) {
                 console.log(err)
@@ -44,10 +88,27 @@ export default new Vuex.Store({
             const url = `/api/event/${event.id}`
             const response = await axios.put(url, event);
             context.commit('SET_STATE', {
-                key: 'events',
+                key: 'event',
                 value: response.data
             });
+            console.log(event)
             await router.push('/calendar');
+        },
+        async update_profile(context, payload) {
+            try {
+                const response = await axios({
+                    method: 'PUT',
+                    url: '/api/profile',
+                    data: payload
+                })
+                context.commit('SET_STATE',{
+                    key: 'profile',
+                    value: response.data
+                })
+                await router.push('/profile')
+            } catch (err) {
+                console.log(err)
+            }
         },
         async get_event (context, id) {
             const url = `/api/event/${id}`
@@ -60,9 +121,10 @@ export default new Vuex.Store({
         async get_events (context) {
             try {
                 // get events from database/backend
-                const url = '/api/events'
+                const url = '/api/event'
                 const response = await axios.get(url);
-                context.commit('UPDATE_EVENTS', response.data)
+                context.commit('UPDATE_EVENTS', response.data.rows)
+                console.log(response.data.rows)
             }
             catch (e) {
                 console.log(e)
@@ -72,9 +134,10 @@ export default new Vuex.Store({
             try {
                 const response = await axios({
                     method: 'POST',
-                    url: 'api/events',
+                    url: '/api/event',
                     data: payload
                 })
+                console.log(payload)
                 context.commit('UPDATE_EVENTS', response.data)
             } catch (err) {
                 console.log(err)
