@@ -25,12 +25,7 @@ export default new Vuex.Store({
     mutations: {
         SET_DATE(state) {
             state.events.map(obj => {
-                    console.log(obj.date)
-                    let events = {}
                     obj.date = format(new Date(obj.date), 'yyyy-MMMM-dd')
-                    console.log(obj.date)
-                    return events
-
                 }
             )
         },
