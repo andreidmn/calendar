@@ -2,9 +2,7 @@ import axios from "axios";
 import router from "@/router";
 
 export const state = {
-    user: {
-        name: 'ANDREI'
-    }
+
 }
 
 export const actions = {
@@ -20,7 +18,7 @@ export const actions = {
         } catch (err) {
         }
     },
-    async check_login({state, commit }, next) {
+    async check_login({rootState, commit }, next) {
         try {
             const { data } = await axios('/api/auth/check-login');
             data.name ? next() : next('/login');

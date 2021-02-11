@@ -12,7 +12,6 @@
       <button @click="logout">Logout</button>
       <router-link to="/profile">Profile</router-link>
     </div>
-    <button @click="$store.commit('CLEAR_FILTER_EVENTS')">CLEAR EVENTS</button>
     <header>
       <button @click="prevMonth" :disabled="currentMonth === 0">
         <img src="../assets/right-arrow.svg" alt="next-month">
@@ -21,6 +20,8 @@
       <button @click="nextMonth" :disabled="currentMonth === 11">
         <img src="../assets/right-arrow.svg" alt="next-month">
       </button>
+      <button   v-once @click="$store.commit('CLEAR_FILTER_EVENTS')">ALL EVENTS</button>
+      <button    @click="update_date">change date</button>
     </header>
     <div class="calendar">
       <ul class="width">
@@ -40,7 +41,6 @@
           <span>{{ event.name }}</span>
           <span>{{ event.details }}</span>
           <span>{{ event.date }}</span>
-          <button @click="deleteEvents(event.id)">Delete</button>
           <router-link cypress="edit-event" :to="`/event/${event.id}`">EDIT</router-link>
         </li>
       </ul>
@@ -73,9 +73,7 @@ export default {
         year: this.currentYear
       });
     },
-    deleteEvents(id) {
-      this.$store.dispatch('delete_events', id)
-    },
+
     prevMonth() {
       if (this.currentMonth > 0) {
         this.currentMonth -= 1
@@ -90,6 +88,9 @@ export default {
     },
     updateDaysInMonth() {
       this.daysInMonth = new Date(new Date().getFullYear(), this.currentMonth + 1, 0).getDate();
+    },
+    update_date() {
+
     }
   },
   computed: {
@@ -100,15 +101,15 @@ export default {
       return this.$store.state.user
     }
   },
+  beforeUpdate() {
+    this.$store.commit("SET_DATE");
+  },
   created() {
-    setTimeout(() => {
       this.$store.dispatch('get_events');
-    }, 2000);
   },
   watch: {
     events: function (newVal, oldVal) {
-      console.log('valoarea initiala', oldVal);
-      console.log('valoarea updatata', newVal);
+
     }
   }
 }
