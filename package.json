@@ -13,6 +13,7 @@
     "sass-loader": "^10.1.1",
     "vue": "^2.6.11",
     "vue-router": "^3.4.9",
+    "vuejs-datepicker": "^1.6.2",
     "vuex": "^3.6.0"
   },
   "devDependencies": {
@@ -28,8 +29,7 @@
     "extends": [
       "plugin:vue/essential"
     ],
-    "parserOptions": {
-    },
+    "parserOptions": {},
     "rules": {}
   },
   "browserslist": [

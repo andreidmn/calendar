@@ -22,7 +22,6 @@ export default {
           date: undefined,
           time: undefined,
           url: undefined,
-          id: undefined
       }
     }
   },
@@ -31,14 +30,16 @@ export default {
   },
   methods: {
     handleSubmit () {
-      this.form.id = this.event.id;
+      this.form.id = this.$route.params.id
       this.$store.dispatch('update_event', this.form)
     },
     handleInput ({ name, value }) {
       this.form[name] = value;
     }
   },
-  created () { this.$store.dispatch('get_event', this.$router.currentRoute.params.id) }
+  created () {
+    this.$store.dispatch('get_event', this.$router.currentRoute.params.id)
+  }
 }
 </script>
 

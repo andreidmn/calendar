@@ -5,7 +5,7 @@
     <BaseForm  btnTxt="Save" @handleSubmit="handleSubmit" >
       <BaseInput name="name" placeholder="Title"  @handleInput="handleInput" />
       <BaseInput name="details" placeholder="Details"  @handleInput="handleInput"/>
-      <BaseInput name="date" placeholder="Date"  @handleInput="handleInput"/>
+      <datepicker v-model="form.date"  placeholder="Date"  @handleInput="handleInput"/>
       <BaseInput name="time" placeholder="Time"  @handleInput="handleInput"/>
       <BaseInput name="url" placeholder="URL"  @handleInput="handleInput"/>
     </BaseForm>
@@ -27,12 +27,11 @@ export default {
     }
   },
   methods: {
-    handleSubmit () {
-      this.$store.dispatch("save",  this.form)
-      router.push('/')
+    handleSubmit() {
+      this.$store.dispatch("create_events", this.form)
     },
-    handleInput ({ name, value }) {
-      this.form[name] = value;
+    handleInput(obj) {
+      this.form[obj.name] = obj.value
     }
   }
 }

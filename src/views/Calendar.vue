@@ -9,9 +9,10 @@
         <router-link to="/register">Register</router-link>
         <router-link to="/login">Login</router-link>
       </div>
-      <button  @click="logout">Logout</button>
+      <button @click="logout">Logout</button>
       <router-link to="/profile">Profile</router-link>
     </div>
+    <button @click="$store.commit('CLEAR_FILTER_EVENTS')">CLEAR EVENTS</button>
     <header>
       <button @click="prevMonth" :disabled="currentMonth === 0">
         <img src="../assets/right-arrow.svg" alt="next-month">
@@ -23,8 +24,10 @@
     </header>
     <div class="calendar">
       <ul class="width">
-        <li v-for="(item, index) in daysInMonth" :key="item">
-          <button :class="{ 'active-day' : index === currentMonthDay }" @click="filterEvents"> {{ item }} </button>
+        <li style="cursor: pointer"
+            v-for="(item, index) in daysInMonth" :key="item"
+            @click="filterEvents(item)">
+          <span :class="{ 'active-day' : index === currentMonthDay }" > {{ item }} </span>
         </li>
       </ul>
       <ul class="width">
@@ -33,12 +36,12 @@
         </li>
       </ul>
       <ul>
-        <li class="events" v-for="(event, index) in events" :key="event">
-          <span>{{ event.value.name }}</span>
-          <span>{{ event.value.details }}</span>
-          <span>{{ event.value.date }}</span>
-          <button @click="deleteEvent(index)">Delete</button>
-          <router-link :to="`/event/${event.id}`">EDIT</router-link>
+        <li class="events" v-for="(event, index) in events" :key="index">
+          <span>{{ event.name }}</span>
+          <span>{{ event.details }}</span>
+          <span>{{ event.date }}</span>
+          <button @click="deleteEvents(event.id)">Delete</button>
+          <router-link cypress="edit-event" :to="`/event/${event.id}`">EDIT</router-link>
         </li>
       </ul>
     </div>
@@ -55,18 +58,23 @@ export default {
       daysInMonth: new Date(new Date().getFullYear(), new Date().getMonth(), 0).getDate(),
       currentMonthDay: new Date().getDate() - 1,
       weekDays: ['Luni', 'Marti', 'Miercuri', 'Joi', 'Vineri', 'Sambata', 'Duminica'],
-      currentDay: new Date().getDay() - 1
+      currentDay: new Date().getDay() - 1,
+      currentYear: new Date().getFullYear()
     }
   },
   methods: {
     logout() {
       this.$store.dispatch('logout')
     },
-    filterEvents(index) {
-      this.$store.commit('FILTER_EVENTS', index)
+    filterEvents(day) {
+      this.$store.commit('FILTER_EVENTS', {
+        day,
+        month: this.currentMonth,
+        year: this.currentYear
+      });
     },
-    deleteEvent(index) {
-      this.$store.dispatch('DELETE_EVENT')
+    deleteEvents(id) {
+      this.$store.dispatch('delete_events', id)
     },
     prevMonth() {
       if (this.currentMonth > 0) {
@@ -93,7 +101,15 @@ export default {
     }
   },
   created() {
-    this.$store.dispatch('get_events');
+    setTimeout(() => {
+      this.$store.dispatch('get_events');
+    }, 2000);
+  },
+  watch: {
+    events: function (newVal, oldVal) {
+      console.log('valoarea initiala', oldVal);
+      console.log('valoarea updatata', newVal);
+    }
   }
 }
 </script>
