@@ -21,9 +21,10 @@
         <img src="../assets/right-arrow.svg" alt="next-month">
       </button>
       <button   v-once @click="$store.commit('CLEAR_FILTER_EVENTS')">ALL EVENTS</button>
-      <button    @click="update_date">change date</button>
+<!--      <button    @click="update_date">change date</button>-->
     </header>
     <div class="calendar">
+      <input type="text" v-on:keyup="filteredEvents" v-model="search" >
       <ul class="width">
         <li style="cursor: pointer"
             v-for="(item, index) in daysInMonth" :key="item"
@@ -53,6 +54,7 @@ export default {
   name: 'Calendar',
   data() {
     return {
+      search: "",
       months: ['Ianuarie', 'Februarie', 'Martie', 'Aprilie', 'Mai', 'Iunie', 'Iulie', 'August', 'Septembrie', 'Octombrie', 'Noiembrie', 'Decembrie'],
       currentMonth: new Date().getMonth(),
       daysInMonth: new Date(new Date().getFullYear(), new Date().getMonth(), 0).getDate(),
@@ -63,6 +65,10 @@ export default {
     }
   },
   methods: {
+    filteredEvents() {
+      return this.$store.commit("SEARCH_EVENTS_BY_NAME", this.search)
+
+    },
     logout() {
       this.$store.dispatch('logout')
     },
@@ -94,6 +100,7 @@ export default {
     }
   },
   computed: {
+
     events() {
       return this.$store.state.events
     },

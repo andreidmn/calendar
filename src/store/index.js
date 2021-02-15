@@ -5,9 +5,8 @@ import router from "@/router";
 import * as auth from './modules/auth';
 import * as eventsLogic from './modules/eventsLogic'
 
-import { format } from 'date-fns'
-import { parseJSON } from 'date-fns'
-
+import {format} from 'date-fns'
+import {parseJSON} from 'date-fns'
 
 
 Vue.use(Vuex);
@@ -15,6 +14,7 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
     state: {
+        eventsClone: [],
         event: {},
         events: [],
         eventsCopy: [],
@@ -23,9 +23,18 @@ export default new Vuex.Store({
         registerSuccessfully: false
     },
     mutations: {
+        SEARCH_EVENTS_BY_NAME(state, search) {
+            if (!state.eventsClone.length) {
+                Vue.set(state, 'eventsClone', state.events);
+            }
+            const events = state.eventsClone.filter(obj => obj.name.toLowerCase().includes(search.toLowerCase()))
+            Vue.set(state, 'events', search ? events : state.eventsClone);
+            !search && Vue.set(state, 'eventsClone', []);
+        },
         SET_DATE(state) {
-            state.events.map(obj => {
-                    obj.date = format(new Date(obj.date), 'yyyy-MMMM-dd')
+            state.events.map(event => {
+                    /* if (event.date instanceof Date)*/
+                    return event.date = format(new Date(event.date), 'yyyy MMMM dd')
                 }
             )
         },
@@ -58,9 +67,7 @@ export default new Vuex.Store({
             Vue.set(state, 'events', state.eventsCopy.slice());
         }
     },
-    actions: {
-
-    },
+    actions: {},
     modules: {
         auth,
         eventsLogic
