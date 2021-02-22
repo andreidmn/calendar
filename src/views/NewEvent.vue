@@ -3,11 +3,11 @@
     <h2>Add New Event</h2>
     <router-link to="/calendar">CALENDAR</router-link>
     <BaseForm  btnTxt="Save" @handleSubmit="handleSubmit" >
-      <BaseInput name="name" placeholder="Title"  @handleInput="handleInput" />
-      <BaseInput name="details" placeholder="Details"  @handleInput="handleInput"/>
-      <datepicker v-model="form.date"  placeholder="Date"  @handleInput="handleInput"/>
-      <BaseInput name="time" placeholder="Time"  @handleInput="handleInput"/>
-      <BaseInput name="url" placeholder="URL"  @handleInput="handleInput"/>
+      <BaseInput name="name" id="name" placeholder="Title"  @handleInput="handleInput" />
+      <BaseInput name="details" id="details" placeholder="Details"  @handleInput="handleInput"/>
+      <datepicker v-model="form.date"   placeholder="Date"  @handleInput="handleInput"/>
+      <BaseInput name="time" id="time" placeholder="Time"  @handleInput="handleInput"/>
+      <BaseInput name="url" id="url" placeholder="URL"  @handleInput="handleInput"/>
     </BaseForm>
   </div>
 </template>

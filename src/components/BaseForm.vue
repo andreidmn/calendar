@@ -1,7 +1,7 @@
 <template>
   <form class="base-form" @submit.prevent="handleSubmit">
     <slot/>
-    <button >{{btnTxt}}</button>
+    <button cypress="button">{{btnTxt}}</button>
   </form>
 </template>
 
