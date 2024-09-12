@@ -2,34 +2,34 @@
   <div class="calendar-page">
     <div class="title">
       <h1>Calendar</h1><br>
-      <router-link to="/event">
+      <router-link cypress="newEvent" to="/event">
         <img src="../assets/add.svg" alt="add event">
       </router-link>
       <div v-if="!user.name">
         <router-link to="/register">Register</router-link>
         <router-link to="/login">Login</router-link>
       </div>
-      <button @click="logout">Logout</button>
-      <router-link to="/profile">Profile</router-link>
+      <button @click="logout" cypress="logout">Logout</button>
+<!--      <router-link to="/profile">Profile</router-link>-->
     </div>
     <header>
-      <button @click="prevMonth" :disabled="currentMonth === 0">
+      <button @click="prevMonth" cypress="prevMonth" :disabled="currentMonth === 0">
         <img src="../assets/right-arrow.svg" alt="next-month">
       </button>
       <h3>{{ months[currentMonth] }}</h3>
-      <button @click="nextMonth" :disabled="currentMonth === 11">
+      <button @click="nextMonth" cypress="nextMonth" :disabled="currentMonth === 11">
         <img src="../assets/right-arrow.svg" alt="next-month">
       </button>
-      <button   v-once @click="$store.commit('CLEAR_FILTER_EVENTS')">ALL EVENTS</button>
+      <button cypress="clearEvents"  v-once @click="$store.commit('CLEAR_FILTER_EVENTS')">ALL EVENTS</button>
 <!--      <button    @click="update_date">change date</button>-->
     </header>
     <div class="calendar">
-      <input type="text" v-on:keyup="filteredEvents" v-model="search" >
+      <input type="text" v-on:keyup="filteredEvents" cypress="filteredEvents" v-model="search" >
       <ul class="width">
-        <li style="cursor: pointer"
+        <li cypress="monthDay" style="cursor: pointer"
             v-for="(item, index) in daysInMonth" :key="item"
             @click="filterEvents(item)">
-          <span :class="{ 'active-day' : index === currentMonthDay }" > {{ item }} </span>
+          <span  :class="{ 'active-day' : index === currentMonthDay }" > {{ item }} </span>
         </li>
       </ul>
       <ul class="width">
@@ -42,7 +42,7 @@
           <span>{{ event.name }}</span>
           <span>{{ event.details }}</span>
           <span>{{ event.date }}</span>
-          <router-link cypress="edit-event" :to="`/event/${event.id}`">EDIT</router-link>
+          <router-link cypress="editEvent" :to="`/event/${event.id}`">EDIT</router-link>
         </li>
       </ul>
     </div>

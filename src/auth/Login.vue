@@ -4,9 +4,9 @@
     <router-link to="/calendar">CALENDAR</router-link>
     <router-link to="/register">Register</router-link>
 
-    <BaseForm btnTxt="Login" @handleSubmit="handleSubmit" >
-      <BaseInput name="username" placeholder="username" @handleInput="handleInput"/>
-      <BaseInput name="password" placeholder="enter your password" @handleInput="handleInput"/>
+    <BaseForm btnTxt="Login"   @handleSubmit="handleSubmit" >
+      <BaseInput name="username" id="username" placeholder="username" @handleInput="handleInput"/>
+      <BaseInput name="password" id="password" placeholder="enter your password" @handleInput="handleInput"/>
     </BaseForm>
   </div>
 </template>

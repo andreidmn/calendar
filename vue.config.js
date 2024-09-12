@@ -6,6 +6,9 @@ module.exports = {
                 pathRewrite: { '^/api': ''}
             }
         }
-    }
+    }/*,
+    chainWebpack: {(config) => {
+        config.resolve.alias.set('@', path.resolve(__dirname, 'src'));
+    }},
+    runtimeCompiler: true*/
 };
-
